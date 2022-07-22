@@ -1,5 +1,10 @@
 package com.cd.statussaver.activity;
 
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
+import static android.content.ContentValues.TAG;
+import static com.cd.statussaver.util.Utils.RootDirectoryLikeeShow;
+import static com.cd.statussaver.util.Utils.createFileFolder;
+
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -30,9 +35,6 @@ import com.cd.statussaver.util.AdsUtils;
 import com.cd.statussaver.util.AppLangSessionManager;
 import com.cd.statussaver.util.SharePrefs;
 import com.cd.statussaver.util.Utils;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -54,11 +56,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
-import static android.content.ContentValues.TAG;
-import static com.cd.statussaver.util.Utils.RootDirectoryLikeeShow;
-import static com.cd.statussaver.util.Utils.createFileFolder;
-
 public class LikeeActivity extends AppCompatActivity {
     ActivityLikeeBinding binding;
     LikeeActivity activity;
@@ -72,7 +69,7 @@ public class LikeeActivity extends AppCompatActivity {
     AppLangSessionManager appLangSessionManager;
 
     AsyncTask downloadAsyncTask;
-    private InterstitialAd mInterstitialAd;
+
 
 
 
@@ -181,7 +178,7 @@ public class LikeeActivity extends AppCompatActivity {
             } else if (!Patterns.WEB_URL.matcher(LL).matches()) {
                 Utils.setToast(activity, getResources().getString(R.string.enter_valid_url));
             } else {
-                showInterstitial();
+                showstile();
                 GetLikeeData();
             }
         });
@@ -194,6 +191,19 @@ public class LikeeActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void extracted() {
+        showstile();
+    }
+
+
+
+    private void showstile() {
+        showInterstitial();
+    }
+
+    private void showInterstitial() {
     }
 
     private void GetLikeeData() {
@@ -380,63 +390,24 @@ public class LikeeActivity extends AppCompatActivity {
 
 //InterstitialAd : Start
 
-    public void InterstitialAdsINIT(){
+    public void InterstitialAdsINIT() {
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {}
-        });
-
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.admob_interstitial_ad));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
-
-            @Override
-            public void onAdClicked() {
-
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the interstitial ad is closed.
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
+
+//
 
     }
 
 
-    private void showInterstitial() {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+
+
+
+
+
         }
-    }
-
-    //InterstitialAd : End
 
 
-
-}

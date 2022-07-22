@@ -1,0 +1,21 @@
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\n\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:3.5.3'\r\n        classpath 'com.google.gms:google-services:4.3.3'\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision e8da9392f48bf4adf0133839e41349a14f459455)
++++ b/build.gradle	(date 1646753983835)
+@@ -7,8 +7,8 @@
+         
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.5.3'
+-        classpath 'com.google.gms:google-services:4.3.3'
++        classpath 'com.android.tools.build:gradle:4.2.0'
++        classpath 'com.google.gms:google-services:4.3.10'
+         // NOTE: Do not place your application dependencies here; they belong
+         // in the individual module build.gradle files
+     }

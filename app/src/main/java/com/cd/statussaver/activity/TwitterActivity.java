@@ -24,7 +24,7 @@ import com.cd.statussaver.util.SharePrefs;
 import com.cd.statussaver.util.Utils;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+//
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -51,7 +51,7 @@ public class TwitterActivity extends AppCompatActivity {
 
 
     AppLangSessionManager appLangSessionManager;
-    private InterstitialAd mInterstitialAd;
+//
 
 
 

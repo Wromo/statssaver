@@ -25,7 +25,6 @@ import com.cd.statussaver.util.SharePrefs;
 import com.cd.statussaver.util.Utils;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -58,7 +57,6 @@ public class TikTokActivity extends AppCompatActivity {
     boolean IsWithWaternark = true;
 
     AppLangSessionManager appLangSessionManager;
-    private InterstitialAd mInterstitialAd;
 
 
 
@@ -151,7 +149,7 @@ public class TikTokActivity extends AppCompatActivity {
                 Utils.setToast(activity, getResources().getString(R.string.enter_valid_url));
             } else {
                 GetTikTokData();
-                showInterstitial();
+
             }
         });
 
@@ -376,52 +374,12 @@ public class TikTokActivity extends AppCompatActivity {
         });
 
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.admob_interstitial_ad));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
 
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
-
-            @Override
-            public void onAdClicked() {
-
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the interstitial ad is closed.
-            }
-        });
 
     }
 
-
-    private void showInterstitial() {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
-    }
 
     //InterstitialAd : End
 

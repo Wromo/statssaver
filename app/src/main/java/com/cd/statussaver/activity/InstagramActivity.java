@@ -1,5 +1,10 @@
 package com.cd.statussaver.activity;
 
+import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
+import static com.cd.statussaver.util.Utils.RootDirectoryInsta;
+import static com.cd.statussaver.util.Utils.createFileFolder;
+import static com.cd.statussaver.util.Utils.startDownload;
+
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -30,15 +35,11 @@ import com.cd.statussaver.model.Edge;
 import com.cd.statussaver.model.EdgeSidecarToChildren;
 import com.cd.statussaver.model.ResponseModel;
 import com.cd.statussaver.model.story.FullDetailModel;
-import com.cd.statussaver.model.story.StoryModel;
 import com.cd.statussaver.model.story.TrayModel;
 import com.cd.statussaver.util.AdsUtils;
 import com.cd.statussaver.util.AppLangSessionManager;
 import com.cd.statussaver.util.SharePrefs;
 import com.cd.statussaver.util.Utils;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -56,10 +57,7 @@ import java.util.Locale;
 
 import io.reactivex.observers.DisposableObserver;
 
-import static android.content.ClipDescription.MIMETYPE_TEXT_PLAIN;
-import static com.cd.statussaver.util.Utils.RootDirectoryInsta;
-import static com.cd.statussaver.util.Utils.createFileFolder;
-import static com.cd.statussaver.util.Utils.startDownload;
+// import com.google.android.gms.ads.InterstitialAd;
 
 public class InstagramActivity extends AppCompatActivity implements UserListInterface {
     private ActivityInstagramBinding binding;
@@ -71,7 +69,7 @@ public class InstagramActivity extends AppCompatActivity implements UserListInte
     private String VideoUrl;
 
 
-    private InterstitialAd mInterstitialAd;
+
 
     AppLangSessionManager appLangSessionManager;
     UserListAdapter userListAdapter;
@@ -181,7 +179,7 @@ public class InstagramActivity extends AppCompatActivity implements UserListInte
 
         if (SharePrefs.getInstance(activity).getBoolean(SharePrefs.ISINSTALOGIN)) {
             layoutCondition();
-            callStoriesApi();
+//            callStoriesApi();
             binding.SwitchLogin.setChecked(true);
         }else {
             binding.SwitchLogin.setChecked(false);
@@ -245,6 +243,10 @@ public class InstagramActivity extends AppCompatActivity implements UserListInte
         mLayoutManager1.setOrientation(RecyclerView.VERTICAL);
 
     }
+
+    private void showInterstitial() {
+    }
+
     public void layoutCondition(){
         binding.tvViewStories.setText(activity.getResources().getString(R.string.stories));
         binding.tvLogin.setVisibility(View.GONE);
@@ -432,7 +434,8 @@ public class InstagramActivity extends AppCompatActivity implements UserListInte
                 if (SharePrefs.getInstance(activity).getBoolean(SharePrefs.ISINSTALOGIN)){
                     binding.SwitchLogin.setChecked(true);
                     layoutCondition();
-                    callStoriesApi();
+
+                    //callStoriesApi();
                 } else {
                     binding.SwitchLogin.setChecked(false);
                 }
@@ -469,102 +472,15 @@ public class InstagramActivity extends AppCompatActivity implements UserListInte
         });
 
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getResources().getString(R.string.admob_interstitial_ad));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
 
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when the ad is displayed.
-            }
-
-            @Override
-            public void onAdClicked() {
-
-                // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when the interstitial ad is closed.
-            }
-        });
-
-    }
-
-
-    private void showInterstitial() {
-        if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
-    }
 
     //InterstitialAd : End
-
-
-    private void callStoriesApi() {
-        try {
-            Utils utils = new Utils(activity);
-            if (utils.isNetworkAvailable()) {
-                if (commonClassForAPI != null) {
-                    binding.prLoadingBar.setVisibility(View.VISIBLE);
-                    commonClassForAPI.getStories(storyObserver, "ds_user_id=" + SharePrefs.getInstance(activity).getString(SharePrefs.USERID)
-                            + "; sessionid=" + SharePrefs.getInstance(activity).getString(SharePrefs.SESSIONID));
-                }
-            } else {
-                Utils.setToast(activity, activity
-                        .getResources().getString(R.string.no_net_conn));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-
-
     }
 
-    private DisposableObserver<StoryModel> storyObserver = new DisposableObserver<StoryModel>() {
-        @Override
-        public void onNext(StoryModel response) {
-            binding.RVUserList.setVisibility(View.VISIBLE);
-            binding.prLoadingBar.setVisibility(View.GONE);
-            try {
-                userListAdapter = new UserListAdapter(activity, response.getTray(), activity);
-                binding.RVUserList.setAdapter(userListAdapter);
-                userListAdapter.notifyDataSetChanged();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
 
-        @Override
-        public void onError(Throwable e) {
-            binding.prLoadingBar.setVisibility(View.GONE);
-            e.printStackTrace();
-        }
 
-        @Override
-        public void onComplete() {
-            binding.prLoadingBar.setVisibility(View.GONE);
-        }
-    };
+
 
     @Override
     public void userListClick(int position, TrayModel trayModel) {
